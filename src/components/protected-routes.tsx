@@ -2,7 +2,9 @@ import { useUser } from "@clerk/clerk-react";
 
 import { Navigate, useLocation } from "react-router-dom";
 
-const ProtectedRoutes = ({ children }) => {
+import { ReactNode } from "react";
+
+const ProtectedRoutes = ({ children }: { children: ReactNode }) => {
   const { isSignedIn, user, isLoaded } = useUser();
   const { pathname } = useLocation();
 
