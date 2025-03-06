@@ -1,10 +1,5 @@
+import { SearchProps } from "@/types/job";
 import supabaseClient from "@/utils/supabase";
-
-type SearchProps = {
-  location?: string;
-  company_id?: string;
-  searchQuery?: string;
-};
 
 export async function getJobs(
   token: string,
@@ -38,10 +33,16 @@ export async function getJobs(
   return data;
 }
 
-export async function saveJob(token: string, { alreadySaved }, saveData) {
+export async function saveJob(
+  token: string,
+  { alreadySaved }: { alreadySaved: boolean },
+  saveData
+) {
   const supabase = await supabaseClient(token);
+  console.log({ saveData });
 
   if (alreadySaved) {
+    console.log("Deleting Saved Job");
     const { data, error: deleteError } = await supabase
       .from("saved_jobs")
       .delete()
@@ -51,8 +52,10 @@ export async function saveJob(token: string, { alreadySaved }, saveData) {
       console.error("Error Deleting Saved Jobs:", deleteError);
       return null;
     }
+
     return data;
   } else {
+    console.log("Inserting Saved Job");
     const { data, error: insertError } = await supabase
       .from("saved_jobs")
       .insert([saveData])

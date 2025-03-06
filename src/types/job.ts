@@ -12,5 +12,16 @@ export type Job = {
     name: string;
     logo_url: string;
   };
-  saved: any[]; // Ajuste o tipo conforme necessário
+  saved: SaveJobProps[]; // Ajuste o tipo conforme necessário
+};
+
+export type SearchProps = {
+  location?: string;
+  company_id?: string;
+  searchQuery?: string;
+};
+
+export type SaveJobProps = {
+  user_id: string;
+  job_id: string;
 };

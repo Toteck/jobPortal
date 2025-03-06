@@ -12,7 +12,7 @@ import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useFetch } from "@/hooks/use-fetch";
 import { saveJob } from "@/api/apijobs";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type JobCard = {
   job: Job;
@@ -31,11 +31,9 @@ const JobCard = ({
 
   const { user } = useUser();
 
-  const {
-    fn: fnSavedJob,
-    data: dataSavedJob,
-    loading: loadingSavedJob,
-  } = useFetch(saveJob);
+  const { fn: fnSavedJob, loading: loadingSavedJob } = useFetch(saveJob, {
+    alreadySaved: saved,
+  });
 
   const handleSaveJob = async () => {
     await fnSavedJob({
@@ -43,11 +41,8 @@ const JobCard = ({
       job_id: job.id,
     });
     onJobSaved();
+    setSaved(!saved);
   };
-
-  useEffect(() => {
-    if (dataSavedJob !== undefined) setSaved(dataSavedJob?.length > 0);
-  }, []);
 
   return (
     <Card>
