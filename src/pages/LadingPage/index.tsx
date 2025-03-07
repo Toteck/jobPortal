@@ -21,7 +21,7 @@ const LandingPage = () => {
   return (
     <main className="flex flex-col gap-10 sm:gap-20 py-10 sm:py-20">
       <section className="text-center">
-        <h1 className="flex flex-col items-center justify-center text-4xl font-extrabold sm:text-6xl lg:text-8xl tracking-tighter px-4">
+        <h1 className="gradient-title flex flex-col items-center justify-center text-4xl font-extrabold sm:text-6xl lg:text-8xl tracking-tighter px-4">
           Find Your dream Job{" "}
           <span className="flex items-center gap-2 sm:gap-6">
             and get{" "}
