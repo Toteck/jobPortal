@@ -15,6 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { ApplyJobDrawer } from "@/components/ApplyJobDrawer";
 
 const Job = () => {
   const { isLoaded, user } = useUser();
@@ -106,6 +107,14 @@ const Job = () => {
       />
 
       {/* render applications */}
+      {job?.recruiter_id !== user?.id && (
+        <ApplyJobDrawer
+          job={job}
+          user={user}
+          fetchJob={fnJob}
+          applied={job.applications.find((ap) => ap.candidate_id === user?.id)}
+        />
+      )}
     </div>
   );
 };
