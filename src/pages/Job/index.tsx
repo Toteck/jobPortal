@@ -10,7 +10,6 @@ import MDEditor from "@uiw/react-md-editor";
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
   SelectTrigger,
   SelectValue,
@@ -18,28 +17,32 @@ import {
 import { ApplyJobDrawer } from "@/components/ApplyJobDrawer";
 
 const Job = () => {
-  const { isLoaded, user } = useUser();
   const { id } = useParams();
+  const { isLoaded, user } = useUser();
 
   const {
     loading: loadingJob,
     data: job,
-    fn: fnjob,
-  } = useFetch(getSingleJob, { job_id: id });
+    fn: fnJob,
+  } = useFetch(getSingleJob, {
+    job_id: id,
+  });
+
+  useEffect(() => {
+    if (isLoaded) fnJob();
+  }, [isLoaded]);
 
   const { loading: loadingHiringStatus, fn: fnHiringStatus } = useFetch(
     updateHiringStatus,
-    { job_id: id }
+    {
+      job_id: id,
+    }
   );
 
   const handleStatusChange = (value) => {
     const isOpen = value === "open";
-    fnHiringStatus(isOpen).then(() => fnjob());
+    fnHiringStatus(isOpen).then(() => fnJob());
   };
-
-  useEffect(() => {
-    if (isLoaded) fnjob();
-  }, [isLoaded]);
 
   if (!isLoaded || loadingJob) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
@@ -108,7 +111,12 @@ const Job = () => {
 
       {/* render applications */}
       {job?.recruiter_id !== user?.id && (
-        <ApplyJobDrawer job={job} user={user} fetchJob={fnjob} />
+        <ApplyJobDrawer
+          job={job}
+          user={user}
+          fetchJob={fnJob}
+          applied={job?.applications?.find((ap) => ap.candidate_id === user.id)}
+        />
       )}
     </div>
   );
