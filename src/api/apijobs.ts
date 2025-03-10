@@ -115,3 +115,22 @@ export async function updateHiringStatus(
     return null;
   }
 }
+
+export async function addNewJob(token: string, _, jobData) {
+  try {
+    const supabase = await supabaseClient(token);
+    const { data, error } = await supabase
+      .from("jobs")
+      .insert([jobData])
+      .select();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error Creating Job:", error);
+    return null;
+  }
+}
