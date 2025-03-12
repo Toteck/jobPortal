@@ -5,7 +5,7 @@ import { AppLayout } from "./layouts/app-layout";
 
 import { Onboarding } from "./pages/Onboarding";
 import { LandingPage } from "./pages/LadingPage";
-import { JobListing } from "./pages/JobListing";
+import { Jobs } from "./pages/Jobs";
 import { Job } from "./pages/Job";
 import { PostJob } from "./pages/PostJob";
 import { SavedJobs } from "./pages/SavedJobs";
@@ -30,10 +30,10 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/jobs",
+        path: "/monografias",
         element: (
           <ProtectedRoutes>
-            <JobListing />
+            <Jobs />
           </ProtectedRoutes>
         ),
       },
@@ -46,7 +46,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/post-job",
+        path: "/submeter-monografia",
         element: (
           <ProtectedRoutes>
             <PostJob />

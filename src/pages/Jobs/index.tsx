@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/select";
 import { SelectGroup } from "@radix-ui/react-select";
 
-const JobListing = () => {
+const Jobs = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState<string>("");
   const [company_id, setCompany_id] = useState<string>();
@@ -171,4 +171,4 @@ const JobListing = () => {
   );
 };
 
-export { JobListing };
+export { Jobs };

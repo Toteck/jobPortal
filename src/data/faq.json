@@ -1,26 +1,22 @@
 [
     {
-        "question": "What is Hirrd?",
-        "answer": "Hirrd is a Job Portal Application allows companies to post job listings and users to search and apply for jobs. It provides features for both job seekers and employers, with user-friendly interfaces and secure authentication."
+        "question": "O que é o portal de monografias do IFMA?",
+        "answer": "O portal de monografias do IFMA é uma plataforma que permite aos estudantes do IFMA Campus Timon publicar suas monografias de TCC. Professores e outros estudantes podem acessar, avaliar e comentar as monografias publicadas."
     },
     {
-        "question": "How do I post a job?",
-        "answer": "As an employer, you can post a job by navigating to the 'Post Job' section after logging in. Fill in the job details and submit the form to create a new job listing."
+        "question": "Como posso publicar minha monografia?",
+        "answer": "Para publicar sua monografia, faça login no portal e navegue até a seção 'Submeter Monografia'. Preencha os detalhes necessários e faça o upload do seu trabalho para que ele seja avaliado e publicado."
     },
     {
-        "question": "How can I search for jobs?",
-        "answer": "Job seekers can search for jobs by keywords, location, category, and other filters using the search bar on the homepage or the dedicated job search page."
+        "question": "Como posso buscar por monografias?",
+        "answer": "Você pode buscar por monografias usando palavras-chave, autor, curso ou outras categorias utilizando a barra de busca na página inicial ou na página dedicada à busca de monografias."
     },
     {
-        "question": "How do I apply for a job?",
-        "answer": "To apply for a job, click on the job listing and follow the application instructions provided. You may need to upload your resume and provide additional information."
+        "question": "Posso salvar monografias para ler mais tarde?",
+        "answer": "Sim, você pode salvar monografias clicando no botão 'Salvar Monografia' na listagem da monografia. As monografias salvas podem ser acessadas no seu perfil, na seção 'Monografias Salvas'."
     },
     {
-        "question": "Can I save jobs to apply later?",
-        "answer": "Yes, you can save job listings by clicking the 'Save Job' button on the job listing. Saved jobs can be accessed from your profile under the 'Saved Jobs' section."
-    },
-    {
-        "question": "How do I track my job applications?",
-        "answer": "Job seekers can track the status of their applications from the 'Applications' section in their profile. This section provides updates on the progress of each application."
+        "question": "Como acompanho o status da minha monografia?",
+        "answer": "Os estudantes podem acompanhar o status de suas monografias na seção 'Minhas Monografias' no perfil. Esta seção fornece atualizações sobre o progresso da avaliação e publicação de cada monografia."
     }
 ]
