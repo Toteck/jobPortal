@@ -50,6 +50,7 @@ const PostJob = () => {
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm({
     defaultValues: {
       course: "",
@@ -65,9 +66,9 @@ const PostJob = () => {
   } = useFetch(addNewMonograph);
 
   const onSubmit = (data) => {
-    console.log("Chamando Submit");
     fnCreateJob({
       ...data,
+      resume: data.resume[0],
       student_id: user?.id,
     });
   };

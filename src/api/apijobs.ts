@@ -1,5 +1,5 @@
 import { SearchProps } from "@/types/job";
-import supabaseClient from "@/utils/supabase";
+import supabaseClient, { supabaseUrl } from "@/utils/supabase";
 
 export async function getJobs(
   token: string,
@@ -120,9 +120,23 @@ export async function addNewMonograph(token: string, _, jobData) {
   try {
     const supabase = await supabaseClient(token);
 
+    // fazendo upload do documento
+    const random = Math.floor(Math.random() * 90000);
+    const fileName = `monografia-${random}-${jobData.student_id}`;
+
+    const { error: storageError } = await supabase.storage
+      .from("resumes")
+      .upload(fileName, jobData.resume);
+
+    if (storageError) {
+      console.error("Error uploading Resume: ", storageError);
+    }
+
+    const resume = `${supabaseUrl}/storage/v1/object/public/resumes/${fileName}`;
+
     const { data, error } = await supabase
       .from("jobs")
-      .insert([jobData])
+      .insert([{ ...jobData, resume }])
       .select();
 
     if (error) {
