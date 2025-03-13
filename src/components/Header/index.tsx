@@ -48,11 +48,11 @@ const Header = () => {
             </Button>
           </SignedOut>
           <SignedIn>
-            {user?.unsafeMetadata?.role === "recruiter" && (
-              <Link to={"/post-job"}>
+            {user?.unsafeMetadata?.role === "student" && (
+              <Link to={"/submeter-monografia"}>
                 <Button variant={"destructive"} className="rounded-full">
                   <PenBox size={20} className="mr-2" />
-                  Post a job
+                  Publicar um trabalho
                 </Button>
               </Link>
             )}

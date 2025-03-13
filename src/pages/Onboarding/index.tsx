@@ -4,14 +4,27 @@ import { useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 
 const Onboarding = () => {
-  const { isLoaded } = useUser();
+  const { user, isLoaded } = useUser();
   const navigate = useNavigate();
 
+  const handleRoleSelection = async (role: string) => {
+    await user
+      ?.update({
+        unsafeMetadata: { role },
+      })
+      .then(() => {
+        navigate("/monografias");
+      })
+      .catch((err) => {
+        console.error("Error updating role:", err);
+      });
+  };
+
   useEffect(() => {
-    if (isLoaded) {
-      navigate("/monografias");
+    if (isLoaded && user) {
+      handleRoleSelection("student");
     }
-  }, [isLoaded, navigate]);
+  }, [isLoaded, user]);
 
   if (!isLoaded) {
     return <BarLoader className="mb-4" width={"100%"} color="#36D7B7" />;

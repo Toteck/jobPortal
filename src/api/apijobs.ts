@@ -116,9 +116,10 @@ export async function updateHiringStatus(
   }
 }
 
-export async function addNewJob(token: string, _, jobData) {
+export async function addNewMonograph(token: string, _, jobData) {
   try {
     const supabase = await supabaseClient(token);
+
     const { data, error } = await supabase
       .from("jobs")
       .insert([jobData])
