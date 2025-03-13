@@ -1,23 +1,10 @@
 import { SearchProps } from "@/types/job";
 import supabaseClient, { supabaseUrl } from "@/utils/supabase";
 
-export async function getJobs(
-  token: string,
-  { location, company_id, searchQuery }: SearchProps
-) {
+export async function getJobs(token: string, { searchQuery }: SearchProps) {
   const supabase = await supabaseClient(token);
 
-  let query = supabase
-    .from("jobs")
-    .select("*, company:companies(name, logo_url), saved: saved_jobs(id)");
-
-  if (location) {
-    query = query.eq("location", location);
-  }
-
-  if (company_id) {
-    query = query.eq("company_id", company_id);
-  }
+  let query = supabase.from("jobs").select("*");
 
   if (searchQuery) {
     query = query.ilike("title", `%${searchQuery}`);
@@ -73,11 +60,10 @@ export async function saveJob(
 export async function getSingleJob(token: string, { job_id }) {
   try {
     const supabase = await supabaseClient(token);
+
     const { data, error } = await supabase
       .from("jobs")
-      .select(
-        "*, company:companies(name, logo_url), applications: applications(*)"
-      )
+      .select("*")
       .eq("id", job_id)
       .single();
 

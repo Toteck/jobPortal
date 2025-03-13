@@ -6,7 +6,15 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import { Heart, MapPinIcon, Trash2Icon, TrashIcon } from "lucide-react";
+import {
+  Calendar,
+  GraduationCap,
+  Heart,
+  MapPinIcon,
+  ScrollText,
+  Trash2Icon,
+  TrashIcon,
+} from "lucide-react";
 import { Job } from "@/types/job";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
@@ -68,7 +76,7 @@ const JobCard = ({
         <BarLoader className="mt-4" width={"100%"} color="#36d7b7" />
       )}
       <CardHeader>
-        <CardTitle className="flex justify-between font-bold">
+        <CardTitle className="flex justify-between font-bold leading-6">
           {job.title}
 
           {isMyJob && (
@@ -84,17 +92,19 @@ const JobCard = ({
       <CardContent className="flex flex-col gap-4 flex-1">
         <div className="flex justify-between">
           <div className="flex gap-2 items-center">
-            <MapPinIcon size={15} /> {job.location}
+            <GraduationCap size={15} /> {job.course}
           </div>
         </div>
 
         <hr />
-        {job.description.substring(0, job.description.indexOf("."))}
+        <p className="leading-6 text-justify">
+          {job.description.substring(0, job.description.indexOf("."))}
+        </p>
       </CardContent>
       <CardFooter className="flex gap-2">
-        <Link to={`/job/${job.id}`} className="flex-1">
+        <Link to={`/monografia/${job.id}`} className="flex-1">
           <Button variant={"secondary"} className="w-full">
-            More details
+            Mais detalhes
           </Button>
         </Link>
 

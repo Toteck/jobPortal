@@ -38,8 +38,6 @@ const Jobs = () => {
     data: Job[] | null | undefined;
     loading: boolean;
   } = useFetch(getJobs, {
-    location,
-    company_id,
     searchQuery,
   });
 
@@ -81,7 +79,7 @@ const Jobs = () => {
   return (
     <div>
       <h1 className="gradient-title font-extrabold text-6xl sm:text-7xl text-center pb-8">
-        Latest Jobs
+        Trabalhos mais recentes
       </h1>
 
       {/* Add filters here */}

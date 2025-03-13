@@ -38,7 +38,7 @@ const router = createBrowserRouter([
         ),
       },
       {
-        path: "/job/:id",
+        path: "/monografia/:id",
         element: (
           <ProtectedRoutes>
             <Job />

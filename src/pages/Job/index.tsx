@@ -1,7 +1,19 @@
 import { getSingleJob, updateHiringStatus } from "@/api/apijobs";
 import { useFetch } from "@/hooks/use-fetch";
 import { useUser } from "@clerk/clerk-react";
-import { Briefcase, DoorClosed, DoorOpen, MapIcon } from "lucide-react";
+import {
+  Briefcase,
+  Copy,
+  DoorClosed,
+  DoorOpen,
+  DownloadCloud,
+  DownloadIcon,
+  KeyRound,
+  MapIcon,
+  ScrollText,
+  Share,
+  Share2,
+} from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BarLoader } from "react-spinners";
@@ -16,6 +28,15 @@ import {
 } from "@/components/ui/select";
 import { ApplyJobDrawer } from "@/components/ApplyJobDrawer";
 import { ApplicationCard } from "@/components/ApplicationCard";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 const Job = () => {
   const { id } = useParams();
@@ -40,6 +61,33 @@ const Job = () => {
     }
   );
 
+  const handleDownload = () => {
+    const link = document.createElement("a");
+    link.href = job?.resume;
+    link.target = "_blank";
+    link.click();
+  };
+
+  const handleCopyLink = () => {
+    const link = window.location.href;
+    navigator.clipboard.writeText(link).then(() => {
+      alert("Link foi copiado!");
+    });
+  };
+
+  const handleShare = () => {
+    const link = window.location.href;
+    if (navigator.share) {
+      navigator.share({
+        title: job?.title,
+        text: "Confira esta monografia no portal do IFMA",
+        url: link,
+      });
+    } else {
+      alert("Compartilhamento não suportado neste navegador.");
+    }
+  };
+
   const handleStatusChange = (value) => {
     const isOpen = value === "open";
     fnHiringStatus(isOpen).then(() => fnJob());
@@ -52,83 +100,55 @@ const Job = () => {
   return (
     <div className="flex flex-col gap-8 mt-5">
       <div className="flex flex-col-reverse gap-6 md:flex-row justify-between items-center">
-        <h1 className="gradient-title font-extrabold pb-3 text-4xl sm:text-6xl">
+        <h1 className="gradient-title font-extrabold pb-3 text-4xl sm:text-6xl text-justify">
           {job?.title}
         </h1>
-        <img src={job?.company?.logo_url} className="h-12" alt={job?.title} />
       </div>
 
-      <div className="flex justify-between">
-        <div className="flex gap-2">
-          <MapIcon />
-          {job?.location}
-        </div>
-        <div className="flex gap-2">
-          <Briefcase /> {job?.applications?.length} Applications
-        </div>
-        <div className="flex gap-2">
-          {job?.isOpen ? (
-            <>
-              <DoorOpen /> Open
-            </>
-          ) : (
-            <>
-              <DoorClosed />
-              Closed
-            </>
-          )}
-        </div>
-      </div>
-      {/* hiring satus */}
-      {loadingHiringStatus && <BarLoader width={"100%"} color="#36d7b7" />}
-      {job?.recruiter_id === user?.id && (
-        <Select onValueChange={handleStatusChange}>
-          <SelectTrigger
-            className={`w-full ${job?.isOpen ? "bg-green-950" : "bg-red-950"}`}
-          >
-            <SelectValue
-              placeholder={
-                "Hiring Status" + (job?.isOpen ? "( Open )" : "( Closed )")
-              }
-            />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value={"open"}>Open</SelectItem>
-            <SelectItem value={"closed"}>Closed</SelectItem>
-          </SelectContent>
-        </Select>
-      )}
+      <h2 className="flex items-center gap-2 text-2xl sm:text-3xl font-bold">
+        <ScrollText />
+        Resumo
+      </h2>
+      <p className="sm:text-lg text-justify leading-6">{job?.description}</p>
 
-      <h2 className="text-2xl sm:text-3xl font-bold">About the job</h2>
-      <p className="sm:text-lg text-justify">{job?.description}</p>
+      <h2 className="flex items-center gap-2 text-2xl sm:text-3xl font-bold">
+        {" "}
+        <KeyRound />
+        Palavras chave
+      </h2>
+      <p>{job.keywords}</p>
 
       <h2 className="text-2xl sm:text-3xl font-bold">
-        What we are looking for
+        O que você deseja fazer?
       </h2>
-      <MDEditor.Markdown
-        source={job?.requirements}
-        className="bg-transparent sm:text-lg"
-      />
 
-      {/* render applications */}
-      {job?.recruiter_id !== user?.id && (
-        <ApplyJobDrawer
-          job={job}
-          user={user}
-          fetchJob={fnJob}
-          applied={job?.applications?.find((ap) => ap.candidate_id === user.id)}
-        />
-      )}
-      {job?.applications?.length > 0 && job?.recruiter_id === user?.id && (
-        <div>
-          <h2 className="text-2xl sm:text-3xl font-bold">Applications</h2>
-          {job?.applications.map((application) => {
-            return (
-              <ApplicationCard key={application.id} application={application} />
-            );
-          })}
-        </div>
-      )}
+      <div>
+        <Card>
+          <CardContent className="flex items-center justify-between">
+            <Button
+              onClick={handleDownload}
+              className="flex items-center gap-2 font-bold cursor-pointer"
+            >
+              <DownloadIcon />
+              Baixar
+            </Button>
+            <Button
+              onClick={handleCopyLink}
+              className="flex items-center gap-2 font-bold"
+            >
+              <Copy />
+              Copiar link
+            </Button>
+            <Button
+              onClick={handleShare}
+              className="flex items-center gap-2 font-bold"
+            >
+              <Share2 />
+              Compartilhar
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
