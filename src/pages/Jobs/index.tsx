@@ -93,7 +93,11 @@ const Jobs = () => {
           name="search-query"
           className="h-full flex-1 px-4 text-md"
         />
-        <Button type="submit" className="h-full sm:w-28" variant={"blue"}>
+        <Button
+          type="submit"
+          className="h-full sm:w-28 cursor-pointer"
+          variant={"blue"}
+        >
           Search
         </Button>
       </form>

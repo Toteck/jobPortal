@@ -1,42 +1,13 @@
 import { getSingleJob, updateHiringStatus } from "@/api/apijobs";
 import { useFetch } from "@/hooks/use-fetch";
 import { useUser } from "@clerk/clerk-react";
-import {
-  Briefcase,
-  Copy,
-  DoorClosed,
-  DoorOpen,
-  DownloadCloud,
-  DownloadIcon,
-  KeyRound,
-  MapIcon,
-  ScrollText,
-  Share,
-  Share2,
-} from "lucide-react";
+import { Copy, DownloadIcon, KeyRound, ScrollText, Share2 } from "lucide-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 
-import MDEditor from "@uiw/react-md-editor";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { ApplyJobDrawer } from "@/components/ApplyJobDrawer";
-import { ApplicationCard } from "@/components/ApplicationCard";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
 const Job = () => {
   const { id } = useParams();
@@ -93,7 +64,7 @@ const Job = () => {
     fnHiringStatus(isOpen).then(() => fnJob());
   };
 
-  if (!isLoaded || loadingJob) {
+  if (!job) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
   }
 

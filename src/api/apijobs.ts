@@ -1,13 +1,14 @@
-import { SearchProps } from "@/types/job";
 import supabaseClient, { supabaseUrl } from "@/utils/supabase";
 
-export async function getJobs(token: string, { searchQuery }: SearchProps) {
+export async function getJobs(token: string, { searchQuery }) {
   const supabase = await supabaseClient(token);
+
+  console.log("SearchQuery", { searchQuery });
 
   let query = supabase.from("jobs").select("*");
 
   if (searchQuery) {
-    query = query.ilike("title", `%${searchQuery}`);
+    query = query.ilike("title", `%${searchQuery}%`);
   }
 
   const { data, error } = await query;
@@ -26,10 +27,8 @@ export async function saveJob(
   saveData
 ) {
   const supabase = await supabaseClient(token);
-  console.log({ saveData });
 
   if (alreadySaved) {
-    console.log("Deleting Saved Job");
     const { data, error: deleteError } = await supabase
       .from("saved_jobs")
       .delete()
@@ -42,7 +41,6 @@ export async function saveJob(
 
     return data;
   } else {
-    console.log("Inserting Saved Job");
     const { data, error: insertError } = await supabase
       .from("saved_jobs")
       .insert([saveData])
