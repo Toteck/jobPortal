@@ -13,7 +13,7 @@ const CreatedJobs = () => {
     data: createdJobs,
     fn: fnCreatedJobs,
   } = useFetch(getMyJobs, {
-    recruiter_id: user?.id,
+    student_id: user?.id,
   });
 
   useEffect(() => {

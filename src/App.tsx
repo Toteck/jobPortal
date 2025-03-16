@@ -12,6 +12,7 @@ import { SavedJobs } from "./pages/SavedJobs";
 import { MyJobs } from "./pages/MyJobs";
 import { ThemeProvider } from "./components/theme-provider";
 import { ProtectedRoutes } from "./components/protected-routes";
+import { EditJob } from "./pages/EditJob";
 
 const router = createBrowserRouter([
   {
@@ -58,6 +59,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoutes>
             <SavedJobs />
+          </ProtectedRoutes>
+        ),
+      },
+      {
+        path: "/edit-job/:id",
+        element: (
+          <ProtectedRoutes>
+            <EditJob />
           </ProtectedRoutes>
         ),
       },

@@ -56,9 +56,11 @@ export async function updateApplicationStatus(token, { job_id }, status) {
 export async function getApplications(token, { user_id }) {
   const supabase = await supabaseClient(token);
   const { data, error } = await supabase
-    .from("applications")
-    .select("*, job:jobs(title, company:companies(name))")
-    .eq("candidate_id", user_id);
+    .from("jobs")
+    .select("*)")
+    .eq("student_id", user_id);
+
+  console.log("Data:", data);
 
   if (error) {
     console.error("Error fetching Applications:", error);

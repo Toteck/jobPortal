@@ -4,8 +4,6 @@ import { useFetch } from "@/hooks/use-fetch";
 import { useUser } from "@clerk/clerk-react";
 import { BarLoader } from "react-spinners";
 
-import { State } from "country-state-city";
-
 import { Job } from "@/types/job";
 
 import { getJobs } from "@/api/apijobs";
@@ -23,10 +21,12 @@ import {
 } from "@/components/ui/select";
 import { SelectGroup } from "@radix-ui/react-select";
 
+import { courses } from "@/data/courses";
+
 const Jobs = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [location, setLocation] = useState<string>("");
-  const [company_id, setCompany_id] = useState<string>();
+  const [course, setCourse] = useState("");
+  const [company_id, setCompany_id] = useState();
   const { isLoaded } = useUser();
 
   const {
@@ -38,39 +38,39 @@ const Jobs = () => {
     data: Job[] | null | undefined;
     loading: boolean;
   } = useFetch(getJobs, {
+    course,
     searchQuery,
   });
 
-  const {
-    fn: fnCompanies,
-    data: companies,
-  }: {
-    fn: () => void;
-    data: Job[] | null | undefined;
-    loading: boolean;
-  } = useFetch(getCompanies);
+  // const {
+  //   fn: fnCompanies,
+  //   data: companies,
+  // }: {
+  //   fn: () => void;
+  //   data: Job[] | null | undefined;
+  //   loading: boolean;
+  // } = useFetch(getCompanies);
 
   const handleSearch = (e) => {
     e.preventDefault();
     let formdata = new FormData(e.target);
 
     const query = formdata.get("search-query");
-    if (query) setSearchQuery(query);
+    const selectedCourse = formdata.get("course");
+
+    setSearchQuery(query || "");
+    setCourse(selectedCourse || "");
   };
 
   const clearFilters = () => {
     setSearchQuery("");
-    setCompany_id("");
-    setLocation("");
+    // setCompany_id("");
+    setCourse("");
   };
 
   useEffect(() => {
-    if (isLoaded) fnCompanies();
-  }, [isLoaded]);
-
-  useEffect(() => {
     if (isLoaded) fnJobs();
-  }, [isLoaded, location, company_id, searchQuery]);
+  }, [course, searchQuery]);
 
   if (!isLoaded) {
     return <BarLoader className="mb-4" width={"100%"} color="#36D7B7" />;
@@ -103,13 +103,13 @@ const Jobs = () => {
       </form>
 
       <div className="flex flex-col sm:flex-row gap-2 mt-4">
-        <Select value={location} onValueChange={(value) => setLocation(value)}>
+        <Select value={course} onValueChange={(value) => setCourse(value)}>
           <SelectTrigger className="w-full">
-            <SelectValue placeholder="Filter by Location" />
+            <SelectValue placeholder="Filtrar por curso" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              {State.getStatesOfCountry("IN").map(({ name }) => {
+              {courses.map(({ name }) => {
                 return (
                   <SelectItem key={name} value={name}>
                     {name}
@@ -120,7 +120,7 @@ const Jobs = () => {
           </SelectContent>
         </Select>
 
-        <Select
+        {/* <Select
           value={company_id}
           onValueChange={(value) => setCompany_id(value)}
         >
@@ -138,7 +138,7 @@ const Jobs = () => {
               })}
             </SelectGroup>
           </SelectContent>
-        </Select>
+        </Select> */}
         <Button
           className="flex-1 sm:w-auto"
           variant="destructive"

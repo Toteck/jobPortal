@@ -6,17 +6,9 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
-import {
-  Calendar,
-  GraduationCap,
-  Heart,
-  MapPinIcon,
-  ScrollText,
-  Trash2Icon,
-  TrashIcon,
-} from "lucide-react";
+import { EditIcon, GraduationCap, Heart, Trash2Icon } from "lucide-react";
 import { Job } from "@/types/job";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useFetch } from "@/hooks/use-fetch";
 import { deleteJob, saveJob } from "@/api/apijobs";
@@ -37,7 +29,7 @@ const JobCard = ({
   onJobSaved = () => {},
 }: JobCard) => {
   const [saved, setSaved] = useState(savedInit);
-
+  const navigate = useNavigate();
   const { user } = useUser();
 
   const {
@@ -66,6 +58,10 @@ const JobCard = ({
     onJobSaved();
   };
 
+  const handleEditJob = () => {
+    navigate(`/edit-job/${job.id}`, { state: { job } });
+  };
+
   useEffect(() => {
     if (savedJob !== undefined) setSaved(savedJob?.length > 0);
   }, [savedJob]);
@@ -80,12 +76,19 @@ const JobCard = ({
           {job.title}
 
           {isMyJob && (
-            <Trash2Icon
-              fill="red"
-              size={18}
-              className="text-red-300 cursor-pointer"
-              onClick={handleDeleteJob}
-            />
+            <div className="flex gap-2">
+              <Trash2Icon
+                fill="red"
+                size={50}
+                className="text-red-300 cursor-pointer"
+                onClick={handleDeleteJob}
+              />
+              <EditIcon
+                size={50}
+                className="text-blue-300 cursor-pointer"
+                onClick={handleEditJob}
+              />
+            </div>
           )}
         </CardTitle>
       </CardHeader>

@@ -8,6 +8,8 @@ const supabaseClient = async (supabaseAccessToken: string) => {
     global: { headers: { Authorization: `Bearer ${supabaseAccessToken}` } },
   });
 
+  console.log("supabaseClient", { supabase });
+
   return supabase;
 };
 

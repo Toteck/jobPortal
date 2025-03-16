@@ -1,4 +1,3 @@
-import { CreatedApplications } from "@/components/CreatedApplications";
 import { CreatedJobs } from "@/components/CreatedJobs";
 import { useUser } from "@clerk/clerk-react";
 import { BarLoader } from "react-spinners";
@@ -15,13 +14,9 @@ const MyJobs = () => {
       <h1 className="gradient-title font-extrabold text-5xl sm:text-7xl text-center pb-8">
         {user?.unsafeMetadata.role === "candidate"
           ? "My Applications"
-          : "My Jobs"}
+          : "Meus trabalhos"}
       </h1>
-      {user?.unsafeMetadata.role === "candidate" ? (
-        <CreatedApplications />
-      ) : (
-        <CreatedJobs />
-      )}
+      <CreatedJobs />
     </div>
   );
 };

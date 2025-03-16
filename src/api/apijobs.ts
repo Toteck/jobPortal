@@ -1,11 +1,13 @@
 import supabaseClient, { supabaseUrl } from "@/utils/supabase";
 
-export async function getJobs(token: string, { searchQuery }) {
+export async function getJobs(token: string, { course, searchQuery }) {
   const supabase = await supabaseClient(token);
 
-  console.log("SearchQuery", { searchQuery });
-
   let query = supabase.from("jobs").select("*");
+
+  if (course) {
+    query = query.eq("course", course);
+  }
 
   if (searchQuery) {
     query = query.ilike("title", `%${searchQuery}%`);
@@ -19,6 +21,53 @@ export async function getJobs(token: string, { searchQuery }) {
   }
 
   return data;
+}
+
+export async function getSingleJob(token: string, { job_id }) {
+  try {
+    const supabase = await supabaseClient(token);
+
+    console.log("getSingleJob => Token: ", { token });
+
+    const { data, error } = await supabase
+      .from("jobs")
+      .select("*")
+      .eq("id", job_id)
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error Fetching Job:", error);
+    return null;
+  }
+}
+
+export async function updateJob(token: string, { job_id, jobData }) {
+  const supabase = await supabaseClient(token);
+
+  console.log("updateJob => Token: ", { token });
+
+  try {
+    const { data, error } = await supabase
+      .from("jobs")
+      .update(jobData)
+      .eq("id", job_id)
+      .select();
+
+    if (error || data.length === 0) {
+      console.error("Error Updating Job: ", error);
+      throw new Error("Error Updating Job");
+    }
+
+    return data;
+  } catch (error) {
+    console.error("Error Updating Job:", error);
+    return null;
+  }
 }
 
 export async function saveJob(
@@ -52,27 +101,6 @@ export async function saveJob(
     }
 
     return data;
-  }
-}
-
-export async function getSingleJob(token: string, { job_id }) {
-  try {
-    const supabase = await supabaseClient(token);
-
-    const { data, error } = await supabase
-      .from("jobs")
-      .select("*")
-      .eq("id", job_id)
-      .single();
-
-    if (error) {
-      throw error;
-    }
-
-    return data;
-  } catch (error) {
-    console.error("Error Fetching Job:", error);
-    return null;
   }
 }
 
@@ -149,13 +177,13 @@ export async function getSavedJobs(token) {
   return data;
 }
 
-export async function getMyJobs(token, { recruiter_id }) {
+export async function getMyJobs(token, { student_id }) {
   const supabase = await supabaseClient(token);
 
   const { data, error } = await supabase
     .from("jobs")
-    .select("*, company:companies(name, logo_url)")
-    .eq("recruiter_id", recruiter_id);
+    .select("*")
+    .eq("student_id", student_id);
 
   if (error) {
     console.error("Error Fetching Jobs", error);

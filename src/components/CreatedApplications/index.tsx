@@ -21,7 +21,7 @@ const CreatedApplications = () => {
     fnApplications();
   }, []);
 
-  if (loadingApplications) {
+  if (!applications) {
     return <BarLoader className="mb-4" width={"100%"} color="#36d7b7" />;
   }
 

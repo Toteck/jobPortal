@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom";
 import { BarLoader } from "react-spinners";
 import { z } from "zod";
 
-import courses from "../../data/courses.json";
+import { courses } from "@/data/courses";
 
 const schema = z.object({
   title: z.string().min(1, { message: "Title is required" }),
